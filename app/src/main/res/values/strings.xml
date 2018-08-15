@@ -19,4 +19,6 @@
     <string name="ficcao_cientifica">Ficção científica</string>
     <string name="navigation_drawer_open">Abrir</string>
     <string name="navigation_drawer_close">Fechar</string>
+    <string name="anterior">Anterior</string>
+    <string name="lbl_compartilhar">Compartilhar</string>
 </resources>
