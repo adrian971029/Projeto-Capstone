@@ -44,7 +44,19 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder>  {
         final VolumeInfo volumeInfo = items.get(position).getVolumeInfo();
 
         if (volumeInfo.getImageLinks() != null) {
-            Picasso.with(context).load(volumeInfo.getImageLinks().getThumbnail()).into(holder.mImageBook);
+            if(volumeInfo.getImageLinks().getExtraLarge() != null) {
+                Picasso.with(context).load(volumeInfo.getImageLinks().getExtraLarge()).into(holder.mImageBook);
+            } else if(volumeInfo.getImageLinks().getLarge() != null) {
+                Picasso.with(context).load(volumeInfo.getImageLinks().getLarge()).into(holder.mImageBook);
+            } else if(volumeInfo.getImageLinks().getMedium() != null) {
+                Picasso.with(context).load(volumeInfo.getImageLinks().getMedium()).into(holder.mImageBook);
+            } else if(volumeInfo.getImageLinks().getSmall() != null) {
+                Picasso.with(context).load(volumeInfo.getImageLinks().getSmall()).into(holder.mImageBook);
+            } else if(volumeInfo.getImageLinks().getThumbnail() != null) {
+                Picasso.with(context).load(volumeInfo.getImageLinks().getThumbnail()).into(holder.mImageBook);
+            } else {
+                Picasso.with(context).load(volumeInfo.getImageLinks().getSmallThumbnail()).into(holder.mImageBook);
+            }
         } else {
             holder.mImageBook.setImageResource(R.drawable.libros);
         }

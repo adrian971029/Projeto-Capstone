@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="Categorias">
+        <menu>
+            <item android:id="@+id/nav_item_action"
+                android:title="@string/acao"
+                android:icon="@drawable/icon_book"/>
+            <item android:id="@+id/nav_item_adventure"
+                android:title="@string/aventura"
+                android:icon="@drawable/icon_book"/>
+            <item android:id="@+id/nav_item_drama"
+                android:title="@string/drama"
+                android:icon="@drawable/icon_book"/>
+            <item android:id="@+id/nav_item_fantasy"
+                android:title="@string/fantasia"
+                android:icon="@drawable/icon_book"/>
+            <item android:id="@+id/nav_item_history"
+                android:title="@string/historia"
+                android:icon="@drawable/icon_book"/>
+            <item android:id="@+id/nav_item_horror"
+                android:title="@string/horror"
+                android:icon="@drawable/icon_book"/>
+            <item android:id="@+id/nav_item_mystery"
+                android:title="@string/misterio"
+                android:icon="@drawable/icon_book"/>
+            <item android:id="@+id/nav_item_religion"
+                android:title="@string/religiao"
+                android:icon="@drawable/icon_book"/>
+            <item android:id="@+id/nav_item_romance"
+                android:title="@string/romance"
+                android:icon="@drawable/icon_book"/>
+            <item android:id="@+id/nav_item_science"
+                android:title="@string/ciencia"
+                android:icon="@drawable/icon_book"/>
+            <item android:id="@+id/nav_item_science_fiction"
+                android:title="@string/ficcao_cientifica"
+                android:icon="@drawable/icon_book"/>
+        </menu>
+    </item>
+
+</menu>

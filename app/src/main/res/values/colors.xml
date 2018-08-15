@@ -9,6 +9,6 @@
     <color name="secondaryText">#757575</color>
     <color name="dividerColor">#BDBDBD</color>
     <color name="textAndIcons">#FFFFFF</color>
-    <color name="photo_background">#ccc</color>
+    <color name="photo_background">#24009688</color>
 
 </resources>

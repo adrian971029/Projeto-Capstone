@@ -6,4 +6,17 @@
     <string name="contDes_sem_conexao_internet">Sem conexão a internet</string>
     <string name="contDesc_atualizar">Atualizar, intentar novamente a conexão</string>
     <string name="lbl_sem_conex_internet">Sem conexão a internet</string>
+    <string name="acao">Ação</string>
+    <string name="aventura">Aventura</string>
+    <string name="drama">Drama</string>
+    <string name="fantasia">Fantasía</string>
+    <string name="historia">Historia</string>
+    <string name="horror">Horror</string>
+    <string name="misterio">Misterio</string>
+    <string name="religiao">Religião</string>
+    <string name="romance">Romance</string>
+    <string name="ciencia">Ciencia</string>
+    <string name="ficcao_cientifica">Ficção científica</string>
+    <string name="navigation_drawer_open">Abrir</string>
+    <string name="navigation_drawer_close">Fechar</string>
 </resources>
