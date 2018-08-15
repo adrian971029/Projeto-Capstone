@@ -5,4 +5,5 @@
     <string name="lbl_nao_tem_favoritos">Não tem favoritos</string>
     <string name="contDes_sem_conexao_internet">Sem conexão a internet</string>
     <string name="contDesc_atualizar">Atualizar, intentar novamente a conexão</string>
+    <string name="lbl_sem_conex_internet">Sem conexão a internet</string>
 </resources>
