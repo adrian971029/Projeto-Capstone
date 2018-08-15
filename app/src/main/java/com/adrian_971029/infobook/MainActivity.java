@@ -1,5 +1,6 @@
 package com.adrian_971029.infobook;
 
+import android.content.res.Resources;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     private Volume volume;
     private ArrayList<Item> items;
     private MainAdapter mAdapter;
+    private Resources resources;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,9 +45,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         ButterKnife.bind(this);
+        resources = this.getResources();
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         mToolbar.setTitle("InfoBook");
+        mToolbar.setTitleTextColor(resources.getColor(R.color.textAndIcons));
         crearLayout();
 
     }

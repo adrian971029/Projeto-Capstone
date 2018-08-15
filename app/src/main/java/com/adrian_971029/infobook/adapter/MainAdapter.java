@@ -50,7 +50,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder>  {
         }
 
         holder.mTitleBook.setText(volumeInfo.getTitle());
-        holder.mSubtitleBook.setText(volumeInfo.getSubtitle());
+        holder.mAuthorBook.setText(allAuthor(volumeInfo.getAuthors()));
     }
 
     @Override
@@ -68,14 +68,33 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder>  {
         ImageView mImageBook;
         @BindView(R.id.item_tv_book_title)
         TextView mTitleBook;
-        @BindView(R.id.item_tv_book_subtitle)
-        TextView mSubtitleBook;
+        @BindView(R.id.item_tv_book_author)
+        TextView mAuthorBook;
 
         public ViewHolder(View view) {
             super(view);
-            mImageBook = (ImageView)view.findViewById(R.id.item_img_book);
-            mTitleBook = (TextView)view.findViewById(R.id.item_tv_book_title);
-            mSubtitleBook = (TextView)view.findViewById(R.id.item_tv_book_subtitle);
+            ButterKnife.bind(this,view);
+        }
+    }
+
+    private String allAuthor(ArrayList<String> mAuthors) {
+        String result = "";
+        if (mAuthors.size() == 0) {
+            return result;
+        } else if (mAuthors.size() == 1) {
+            result = "by ";
+            result += mAuthors.get(0);
+            return result;
+        } else {
+            result = "by ";
+            for (int i = 0; i < mAuthors.size(); i++) {
+                if (i == mAuthors.size()-1) {
+                    result += mAuthors.get(i);
+                } else {
+                    result += mAuthors.get(i) + " , ";
+                }
+            }
+            return result;
         }
     }
 
