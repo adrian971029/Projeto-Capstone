@@ -34,4 +34,5 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     implementation 'com.android.support:design:27.1.1'
     implementation 'com.android.support:support-v4:27.1.1'
+    implementation 'com.elmargomez.typer:typerlib:1.0.0'
 }

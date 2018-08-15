@@ -2,10 +2,13 @@ package com.adrian_971029.infobook;
 
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -25,6 +28,8 @@ import com.adrian_971029.infobook.model.Item;
 import com.adrian_971029.infobook.model.Volume;
 import com.adrian_971029.infobook.utils.Constants;
 import com.adrian_971029.infobook.utils.ReadVolumeJson;
+import com.elmargomez.typer.Font;
+import com.elmargomez.typer.Typer;
 
 import java.util.ArrayList;
 
@@ -54,6 +59,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     DrawerLayout drawerLayout;
     @BindView(R.id.nav_view)
     NavigationView navigationView;
+    @BindView(R.id.app_bar_layout)
+    AppBarLayout mAppBarLayout;
+    @BindView(R.id.collapsing_toolbar_layout)
+    CollapsingToolbarLayout collapsingToolbarLayout;
 
     private Volume volume;
     private ArrayList<Item> items;
@@ -72,6 +81,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         mToolbar.setTitle("InfoBook");
         mToolbar.setTitleTextColor(resources.getColor(R.color.textAndIcons));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Typeface fontExpanded = Typer.set(this).getFont(Font.ROBOTO_CONDENSED_BOLD);
+        Typeface fontCollapsed = Typer.set(this).getFont(Font.ROBOTO_BOLD);
+        collapsingToolbarLayout.setCollapsedTitleTypeface(fontCollapsed);
+        collapsingToolbarLayout.setExpandedTitleTypeface(fontExpanded);
         mToogle = new ActionBarDrawerToggle(this,drawerLayout,mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
             public void onDrawerClosed(View view)
             {

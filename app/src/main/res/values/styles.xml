@@ -8,4 +8,16 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="Toolbar.TitleExpanded" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textSize">32sp</item>
+        <item name="android:textColor">@color/textAndIcons</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Toolbar.TitleCollapsing" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/textAndIcons</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
 </resources>
