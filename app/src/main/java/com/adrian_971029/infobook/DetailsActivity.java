@@ -1,10 +1,12 @@
 package com.adrian_971029.infobook;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ShareCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -58,8 +60,6 @@ public class DetailsActivity extends AppCompatActivity {
     View mUpButton;
     @BindView(R.id.up_container)
     View mUpButtonContainer;
-
-
 
     private VolumeInfo volumeInfo;
     private int mTop;
@@ -119,6 +119,13 @@ public class DetailsActivity extends AppCompatActivity {
     @OnClick(R.id.action_up)
     void onClickActionUp() {
         onSupportNavigateUp();
+    }
+    @OnClick(R.id.fab_share_details)
+    void onClickShareFab() {
+        startActivity(Intent.createChooser(ShareCompat.IntentBuilder.from(this)
+                .setType("text/html")
+                .setText(volumeInfo.getInfoLink())
+                .getIntent(),getString(R.string.action_share)));
     }
 
     private void criarLayout() {
