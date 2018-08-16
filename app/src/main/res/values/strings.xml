@@ -21,4 +21,10 @@
     <string name="navigation_drawer_close">Fechar</string>
     <string name="anterior">Anterior</string>
     <string name="lbl_compartilhar">Compartilhar</string>
+    <string name="lbl_editora">Editora:</string>
+    <string name="lbl_data_de_edicao">Data de Edição:</string>
+    <string name="lbl_idioma">Idioma:</string>
+    <string name="lbl_total_de_paginas">Total de Páginas:</string>
+    <string name="lbl_categorias">Categorías:</string>
+    <string name="lbl_descricao">Descrição:</string>
 </resources>
