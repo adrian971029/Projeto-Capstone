@@ -28,4 +28,13 @@
     <string name="lbl_categorias">Categorías:</string>
     <string name="lbl_descricao">Descrição:</string>
     <string name="action_share">Compartilhar</string>
+    <string name="lbl_minha_biblioteca">Minha Biblioteca</string>
+    <string name="lbl_favoritos">Favoritos</string>
+    <string name="uri_desconhecida">Uri Desconhecida</string>
+    <string name="error_inserir">Error ao inserir em</string>
+    <string name="lbl_add_a_favoritos">Add a favoritos</string>
+    <string name="lbl_favorito">Favorito</string>
+    <string name="lbl_save_favorites">Salvado em favoritos</string>
+    <string name="lbl_delete_favorites">Removido de favoritos</string>
+
 </resources>

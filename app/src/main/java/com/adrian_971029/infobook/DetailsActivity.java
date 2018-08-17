@@ -1,6 +1,7 @@
 package com.adrian_971029.infobook;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
@@ -9,11 +10,15 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ShareCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.view.View;
 import android.view.WindowInsets;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.adrian_971029.infobook.data.ContentProviderAccess;
 import com.adrian_971029.infobook.model.VolumeInfo;
 import com.adrian_971029.infobook.utils.MyFrameLayout;
 import com.adrian_971029.infobook.utils.MyScrollView;
@@ -25,7 +30,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class DetailsActivity extends AppCompatActivity {
+public class DetailsActivity extends BaseActivity {
 
     private static final String VOLUME_INFO = "volume_info";
     private static final float PARALLAX_FACTOR = 1.25f;
@@ -60,6 +65,12 @@ public class DetailsActivity extends AppCompatActivity {
     View mUpButton;
     @BindView(R.id.up_container)
     View mUpButtonContainer;
+    @BindView(R.id.rtb_averageRating_details)
+    RatingBar mRatingBarAverageRating;
+    @BindView(R.id.btn_add_favorites)
+    TextView mFavorites;
+    @BindView(R.id.card_view_button)
+    CardView mCardViewFavorites;
 
     private VolumeInfo volumeInfo;
     private int mTop;
@@ -68,6 +79,7 @@ public class DetailsActivity extends AppCompatActivity {
     private ColorDrawable mStatusBarColorDrawable;
     private int mMutedColor = 0x009688;
     private int mSelectedItemUpButtonFloor = Integer.MAX_VALUE;
+    private boolean controlFavorito;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,6 +140,23 @@ public class DetailsActivity extends AppCompatActivity {
                 .getIntent(),getString(R.string.action_share)));
     }
 
+    @OnClick(R.id.card_view_button)
+    void onClickBtnFavorites() {
+        if(mFavorites.getText().toString().equals(getResources().getString(R.string.lbl_add_a_favoritos))) {
+            inserirCadastroBanco();
+            mFavorites.setText(R.string.lbl_favorito);
+            guardandoFavorito(true);
+            mCardViewFavorites.setCardBackgroundColor(getResources().getColor(R.color.colorAccent));
+            Toast.makeText(this, R.string.lbl_save_favorites,Toast.LENGTH_SHORT).show();
+        } else {
+            if (!deletarCadastroBanco(String.valueOf(convertStringidToLong(volumeInfo.getTitle() + volumeInfo.getPublisher())))) return;
+            mFavorites.setText(R.string.lbl_add_a_favoritos);
+            guardandoFavorito(false);
+            mCardViewFavorites.setCardBackgroundColor(getResources().getColor(R.color.colorPrimaryLight));
+            Toast.makeText(this, R.string.lbl_delete_favorites,Toast.LENGTH_SHORT).show();
+        }
+    }
+
     private void criarLayout() {
         if(volumeInfo != null) {
             if(volumeInfo.getImageLinks().getExtraLarge() != null) {
@@ -150,6 +179,8 @@ public class DetailsActivity extends AppCompatActivity {
             mTextViewLanguage.setText(defineLanguage(volumeInfo.getLanguage()));
             mTextViewPageCount.setText("" + volumeInfo.getPageCount());
             mTextViewCategories.setText(allCategories(volumeInfo.getCategories()));
+            mRatingBarAverageRating.setRating((float)volumeInfo.getAverageRating());
+            mRatingBarAverageRating.setIsIndicator(true);
             mTextViewDescription.setText(volumeInfo.getDescription());
         }
     }
@@ -259,6 +290,69 @@ public class DetailsActivity extends AppCompatActivity {
         mUpButton.setTranslationY(Math.min(mSelectedItemUpButtonFloor - upButtonNormalBottom, 0));
     }
 
+    private void inserirCadastroBanco() {
+        try {
+            volumeInfo.setId(convertStringidToLong(volumeInfo.getTitle() + volumeInfo.getPublisher()));
+            ContentProviderAccess.inserirContentProvider(this,volumeInfo);
 
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
 
+    }
+
+    private boolean deletarCadastroBanco(String id){
+        boolean sucesso = false;
+        try {
+            sucesso = ContentProviderAccess.deletar(volumeInfo,id,this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return sucesso;
+    }
+
+    private void guardandoFavorito(boolean favorito){
+        SharedPreferences.Editor editor = sharedPrefs.edit();
+        editor.putBoolean(String.valueOf(volumeInfo.getTitle()),favorito);
+        editor.apply();
+    }
+
+    private void controlFavorito() {
+        if(sharedPrefs != null) {
+            controlFavorito = sharedPrefs.getBoolean(String.valueOf(volumeInfo.getTitle()),false);
+        }
+
+        if(controlFavorito) {
+            mFavorites.setText(R.string.lbl_favorito);
+            mCardViewFavorites.setCardBackgroundColor(getResources().getColor(R.color.colorAccent));
+        }
+        else {
+            mFavorites.setText(R.string.lbl_add_a_favoritos);
+            mCardViewFavorites.setCardBackgroundColor(getResources().getColor(R.color.colorPrimaryLight));
+        }
+    }
+
+    private long convertStringidToLong(String id) {
+        int numberId = 0;
+        long result = 0;
+        char[] mchar = new char[id.length()];
+        mchar = id.toCharArray();
+        for (int i=0;i<id.length();i++) {
+            numberId += mchar[i];
+        }
+        result = (long)numberId;
+        return result;
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        controlFavorito();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        controlFavorito();
+    }
 }

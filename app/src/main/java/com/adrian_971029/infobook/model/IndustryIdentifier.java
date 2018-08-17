@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-class IndustryIdentifier implements Parcelable {
+public class IndustryIdentifier implements Parcelable {
 
     @SerializedName("type")
     @Expose

@@ -25,6 +25,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
+        <provider
+            android:name=".data.InfoBookContentProvider"
+            android:authorities="com.adrian_971029.infobook"
+            android:exported="false"></provider>
+
     </application>
 
 </manifest>

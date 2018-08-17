@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    android:id="@+id/card_view_button"
+    android:clickable="true"
+    android:layout_marginTop="20dp"
+    android:layout_width="300dp"
+    android:layout_height="100dp"
+    android:layout_gravity="center_horizontal"
+    app:cardBackgroundColor="@color/colorPrimaryLight"
+    app:cardCornerRadius="8dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/btn_add_favorites"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="@color/primaryText"
+            android:layout_centerInParent="true"/>
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

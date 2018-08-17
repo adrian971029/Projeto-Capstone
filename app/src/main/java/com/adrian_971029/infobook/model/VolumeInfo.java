@@ -72,6 +72,7 @@ public class VolumeInfo implements Parcelable {
     @SerializedName("canonicalVolumeLink")
     @Expose
     private String canonicalVolumeLink;
+    private long id;
 
     public VolumeInfo() {
     }
@@ -97,6 +98,7 @@ public class VolumeInfo implements Parcelable {
         previewLink = in.readString();
         infoLink = in.readString();
         canonicalVolumeLink = in.readString();
+        id = in.readLong();
     }
 
     public static final Creator<VolumeInfo> CREATOR = new Creator<VolumeInfo>() {
@@ -271,6 +273,14 @@ public class VolumeInfo implements Parcelable {
         this.canonicalVolumeLink = canonicalVolumeLink;
     }
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -298,5 +308,6 @@ public class VolumeInfo implements Parcelable {
         dest.writeString(previewLink);
         dest.writeString(infoLink);
         dest.writeString(canonicalVolumeLink);
+        dest.writeLong(id);
     }
 }

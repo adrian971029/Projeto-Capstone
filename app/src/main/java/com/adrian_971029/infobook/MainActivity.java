@@ -1,15 +1,21 @@
 package com.adrian_971029.infobook;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.AsyncTaskLoader;
+import android.support.v4.content.Loader;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -23,21 +29,29 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.adrian_971029.infobook.adapter.FavoritesAdapter;
 import com.adrian_971029.infobook.adapter.MainAdapter;
+import com.adrian_971029.infobook.data.ContentProviderAccess;
 import com.adrian_971029.infobook.model.Item;
 import com.adrian_971029.infobook.model.Volume;
+import com.adrian_971029.infobook.model.VolumeInfo;
 import com.adrian_971029.infobook.utils.Constants;
 import com.adrian_971029.infobook.utils.ReadVolumeJson;
 import com.elmargomez.typer.Font;
 import com.elmargomez.typer.Typer;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, LoaderManager.LoaderCallbacks<List<VolumeInfo>> {
+
+    public static final int OPERATION_SEARCH_LOADER = 25;
+    public static final String BOOK_PREFERENCE = "book_preference";
+    public static final String FAVORITE_PREFERENCE = "favorite_preference";
 
     @BindView(R.id.tool_bar)
     Toolbar mToolbar;
@@ -66,9 +80,14 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     private Volume volume;
     private ArrayList<Item> items;
+    private ArrayList<VolumeInfo> volumeInfoArrayList;
     private MainAdapter mAdapter;
+    private FavoritesAdapter mFavoritesAdapter;
     private Resources resources;
     private ActionBarDrawerToggle mToogle;
+    private ContentProviderAccess providerAccess;
+    private Context context;
+    protected SharedPreferences sharedPrefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +96,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         ButterKnife.bind(this);
         resources = this.getResources();
+        context = getApplicationContext();
+        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        items = new ArrayList<Item>();
         setSupportActionBar(mToolbar);
         mToolbar.setTitle("InfoBook");
         mToolbar.setTitleTextColor(resources.getColor(R.color.textAndIcons));
@@ -101,8 +123,13 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         mToogle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
         exibirProgreso(true);
-        crearLayout(Constants.ADVENTURE);
+        controlBookPreference();
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        controlBookPreference();
     }
 
     @OnClick(R.id.img_atualizar)
@@ -113,7 +140,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             mRecyclerView.getRecycledViewPool().clear();
             items.clear();
             volume = null;
-            crearLayout(Constants.ADVENTURE);
+            controlBookPreference();
         } else {
             Toast.makeText(this, R.string.lbl_sem_conex_internet,Toast.LENGTH_SHORT).show();
         }
@@ -127,7 +154,28 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         mRecyclerView.setAdapter(mAdapter);
     }
 
+    private void setupRecyclerFavorites() {
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(layoutManager);
+
+        mFavoritesAdapter = new FavoritesAdapter(this,volumeInfoArrayList);
+        mRecyclerView.setAdapter(mFavoritesAdapter);
+    }
+
+    private void controlBookPreference() {
+        if(sharedPrefs != null) {
+            if(sharedPrefs.getString(BOOK_PREFERENCE,Constants.ADVENTURE).equals(FAVORITE_PREFERENCE)) {
+                crearLayoutFavorites();
+            } else {
+                crearLayout(sharedPrefs.getString(BOOK_PREFERENCE,Constants.ADVENTURE));
+            }
+        } else {
+            crearLayout(Constants.ADVENTURE);
+        }
+    }
+
     private void crearLayout(String category){
+        mTextMensagemSemFavoritos.setVisibility(View.GONE);
         if(items == null){
             items = new ArrayList<Item>();
         }
@@ -141,6 +189,15 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             exibirProgreso(false);
             exibirMensagemSemConexao(true);
         }
+    }
+
+    private void crearLayoutFavorites(){
+        mTextMensagemSemFavoritos.setVisibility(View.GONE);
+        if(volumeInfoArrayList == null){
+            volumeInfoArrayList = new ArrayList<VolumeInfo>();
+        }
+        setupRecyclerFavorites();
+        initLoader();
     }
 
     private void exibirProgreso(boolean exibir){
@@ -181,12 +238,22 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         int id = item.getItemId();
 
         switch (id) {
+            case R.id.nav_item_favoritos:
+                drawerLayout.closeDrawer(GravityCompat.START);
+                mRecyclerView.getRecycledViewPool().clear();
+                items.clear();
+                volume = null;
+                exibirProgreso(true);
+                guardandoUltimaPreferencia(FAVORITE_PREFERENCE);
+                crearLayoutFavorites();
+                break;
             case R.id.nav_item_action:
                 drawerLayout.closeDrawer(GravityCompat.START);
                 mRecyclerView.getRecycledViewPool().clear();
                 items.clear();
                 volume = null;
                 exibirProgreso(true);
+                guardandoUltimaPreferencia(Constants.ACTION);
                 crearLayout(Constants.ACTION);
                 break;
             case R.id.nav_item_adventure:
@@ -195,6 +262,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 items.clear();
                 volume = null;
                 exibirProgreso(true);
+                guardandoUltimaPreferencia(Constants.ADVENTURE);
                 crearLayout(Constants.ADVENTURE);
                 break;
             case R.id.nav_item_drama:
@@ -203,6 +271,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 items.clear();
                 volume = null;
                 exibirProgreso(true);
+                guardandoUltimaPreferencia(Constants.DRAMA);
                 crearLayout(Constants.DRAMA);
                 break;
             case R.id.nav_item_fantasy:
@@ -211,6 +280,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 items.clear();
                 volume = null;
                 exibirProgreso(true);
+                guardandoUltimaPreferencia(Constants.FANTASY);
                 crearLayout(Constants.FANTASY);
                 break;
             case R.id.nav_item_history:
@@ -219,6 +289,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 items.clear();
                 volume = null;
                 exibirProgreso(true);
+                guardandoUltimaPreferencia(Constants.HISTORY);
                 crearLayout(Constants.HISTORY);
                 break;
             case R.id.nav_item_horror:
@@ -227,6 +298,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 items.clear();
                 volume = null;
                 exibirProgreso(true);
+                guardandoUltimaPreferencia(Constants.HORROR);
                 crearLayout(Constants.HORROR);
                 break;
             case R.id.nav_item_mystery:
@@ -235,6 +307,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 items.clear();
                 volume = null;
                 exibirProgreso(true);
+                guardandoUltimaPreferencia(Constants.MYSTERY);
                 crearLayout(Constants.MYSTERY);
                 break;
             case R.id.nav_item_religion:
@@ -243,6 +316,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 items.clear();
                 volume = null;
                 exibirProgreso(true);
+                guardandoUltimaPreferencia(Constants.RELIGION);
                 crearLayout(Constants.RELIGION);
                 break;
             case R.id.nav_item_romance:
@@ -251,6 +325,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 items.clear();
                 volume = null;
                 exibirProgreso(true);
+                guardandoUltimaPreferencia(Constants.ROMANCE);
                 crearLayout(Constants.ROMANCE);
                 break;
             case R.id.nav_item_science:
@@ -259,6 +334,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 items.clear();
                 volume = null;
                 exibirProgreso(true);
+                guardandoUltimaPreferencia(Constants.SCIENCE);
                 crearLayout(Constants.SCIENCE);
                 break;
             case R.id.nav_item_science_fiction:
@@ -267,6 +343,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 items.clear();
                 volume = null;
                 exibirProgreso(true);
+                guardandoUltimaPreferencia(Constants.SCIENCE_FICTION);
                 crearLayout(Constants.SCIENCE_FICTION);
                 break;
             default:
@@ -283,6 +360,70 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         } else {
             super.onBackPressed();
         }
+    }
+
+
+    @NonNull
+    @Override
+    public Loader<List<VolumeInfo>> onCreateLoader(int id, @Nullable Bundle args) {
+        return new AsyncTaskLoader<List<VolumeInfo>>(context) {
+            @Nullable
+            @Override
+            public List<VolumeInfo> loadInBackground() {
+                return providerAccess.buscarTodos(context);
+            }
+
+            @Override
+            protected void onStartLoading() {
+                forceLoad();
+            }
+
+        };
+    }
+
+    @Override
+    public void onLoadFinished(@NonNull Loader<List<VolumeInfo>> loader, List<VolumeInfo> data) {
+        if(data != null){
+            if(data.size() > 0){
+                exibirProgreso(false);
+                mTextMensagemSemFavoritos.setVisibility(View.GONE);
+                volumeInfoArrayList.clear();
+                volumeInfoArrayList.addAll(data);
+                mFavoritesAdapter.notifyDataSetChanged();
+            }else {
+                mTextMensagemSemFavoritos.setVisibility(View.VISIBLE);
+                volumeInfoArrayList.clear();
+                mFavoritesAdapter.notifyDataSetChanged();
+                exibirProgreso(false);
+            }
+        }
+        else {
+            exibirProgreso(false);
+            volumeInfoArrayList.clear();
+            mFavoritesAdapter.notifyDataSetChanged();
+            mTextMensagemSemFavoritos.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void onLoaderReset(@NonNull Loader<List<VolumeInfo>> loader) {
+
+    }
+
+    private void initLoader() {
+        LoaderManager loaderManager = getSupportLoaderManager();
+        Loader<String> loader = loaderManager.getLoader(OPERATION_SEARCH_LOADER);
+        if(loader==null){
+            loaderManager.initLoader(OPERATION_SEARCH_LOADER, null, this);
+        }else{
+            loaderManager.restartLoader(OPERATION_SEARCH_LOADER, null, this);
+        }
+    }
+
+    private void guardandoUltimaPreferencia(String bookPreference){
+        SharedPreferences.Editor editor = sharedPrefs.edit();
+        editor.putString(BOOK_PREFERENCE,bookPreference);
+        editor.apply();
     }
 
 }
