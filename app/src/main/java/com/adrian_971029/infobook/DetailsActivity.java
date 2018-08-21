@@ -319,7 +319,11 @@ public class DetailsActivity extends BaseActivity {
 
     private void controlFavorito() {
         if(sharedPrefs != null) {
-            controlFavorito = sharedPrefs.getBoolean(String.valueOf(volumeInfo.getTitle()),false);
+            if (volumeInfo != null) {
+                controlFavorito = sharedPrefs.getBoolean(String.valueOf(volumeInfo.getTitle()),false);
+            } else {
+                controlFavorito = false;
+            }
         }
 
         if(controlFavorito) {
@@ -354,5 +358,18 @@ public class DetailsActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         controlFavorito();
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        if (intent != null) {
+            volumeInfo = intent.getExtras().getParcelable(VOLUME_INFO);
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        getIntent().removeExtra(VOLUME_INFO);
     }
 }

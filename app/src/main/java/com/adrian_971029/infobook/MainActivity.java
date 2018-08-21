@@ -1,5 +1,7 @@
 package com.adrian_971029.infobook;
 
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -37,6 +39,7 @@ import com.adrian_971029.infobook.model.Volume;
 import com.adrian_971029.infobook.model.VolumeInfo;
 import com.adrian_971029.infobook.utils.Constants;
 import com.adrian_971029.infobook.utils.ReadVolumeJson;
+import com.adrian_971029.infobook.widget.InfoBookWidgetProvider;
 import com.elmargomez.typer.Font;
 import com.elmargomez.typer.Typer;
 
@@ -122,6 +125,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         drawerLayout.addDrawerListener(mToogle);
         mToogle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+        atualizarWidget();
         exibirProgreso(true);
         controlBookPreference();
     }
@@ -424,6 +428,14 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         SharedPreferences.Editor editor = sharedPrefs.edit();
         editor.putString(BOOK_PREFERENCE,bookPreference);
         editor.apply();
+    }
+
+    private void atualizarWidget() {
+        Context context = getApplicationContext();
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+        ComponentName thisWidget = new ComponentName(context, InfoBookWidgetProvider.class);
+        int[] appWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget);
+        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.layout_item_book);
     }
 
 }

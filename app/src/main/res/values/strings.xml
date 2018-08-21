@@ -36,5 +36,7 @@
     <string name="lbl_favorito">Favorito</string>
     <string name="lbl_save_favorites">Salvado em favoritos</string>
     <string name="lbl_delete_favorites">Removido de favoritos</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
 
 </resources>
