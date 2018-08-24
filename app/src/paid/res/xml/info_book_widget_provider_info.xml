@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:initialKeyguardLayout="@layout/info_book_widget_provider"
+    android:initialLayout="@layout/info_book_widget_provider"
+    android:minHeight="195dp"
+    android:minWidth="190dp"
+    android:previewImage="@drawable/libros"
+    android:resizeMode="horizontal|vertical"
+    android:updatePeriodMillis="1800000"
+    android:widgetCategory="home_screen">
+</appwidget-provider>

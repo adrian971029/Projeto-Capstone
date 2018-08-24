@@ -1,0 +1,51 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_item_book"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorPrimaryLight"
+    android:padding="2dp">
+
+    <ImageView
+        android:id="@+id/item_img_book"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@color/photo_background"
+        android:scaleType="fitXY"/>
+
+    <LinearLayout
+        android:layout_below="@id/item_img_book"
+        android:id="@+id/meta_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:layout_gravity="bottom"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/item_tv_book_title"
+            style="@style/TextAppearance.AppCompat.Subhead"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="16dp"
+            android:paddingTop="8dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="4dp"
+            android:textColor="@color/primaryText"
+            android:textStyle="bold"
+            android:ellipsize="end"
+            android:maxLines="4" />
+
+        <TextView
+            android:id="@+id/item_tv_book_author"
+            style="@style/TextAppearance.AppCompat.Body1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="8dp"
+            android:textColor="@color/colorAccent"
+            android:maxLines="2"
+            android:ellipsize="end" />
+    </LinearLayout>
+
+</RelativeLayout>

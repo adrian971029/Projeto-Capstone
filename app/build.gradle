@@ -16,6 +16,18 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    flavorDimensions "app"
+
+    productFlavors {
+        free {
+            dimension "app"
+            applicationId "com.adrian_971029.infobook.free"
+        }
+        paid {
+            dimension "app"
+            applicationId "com.adrian_971029.infobook.paid"
+        }
+    }
 }
 
 dependencies {
@@ -38,4 +50,5 @@ dependencies {
     implementation 'com.android.support:support-v4:27.1.1'
     implementation 'com.elmargomez.typer:typerlib:1.0.0'
     implementation 'com.android.support:design:27.1.1'
+    freeImplementation 'com.google.android.gms:play-services-ads:15.0.1'
 }
