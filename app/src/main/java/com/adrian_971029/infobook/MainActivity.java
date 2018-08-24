@@ -3,6 +3,7 @@ package com.adrian_971029.infobook;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -250,6 +251,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 exibirProgreso(true);
                 guardandoUltimaPreferencia(FAVORITE_PREFERENCE);
                 crearLayoutFavorites();
+                break;
+            case R.id.nav_item_map:
+                drawerLayout.closeDrawer(GravityCompat.START);
+                Intent intent = new Intent(this,MapsActivity.class);
+                startActivity(intent);
                 break;
             case R.id.nav_item_action:
                 drawerLayout.closeDrawer(GravityCompat.START);

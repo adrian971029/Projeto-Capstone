@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="@string/lbl_minha_biblioteca">
+    <item android:title="@string/lbl_opcoes">
         <menu>
             <item android:id="@+id/nav_item_favoritos"
                 android:title="@string/lbl_favoritos"
                 android:icon="@android:drawable/star_on"/>
+            <item android:id="@+id/nav_item_map"
+                android:title="Livros Perto"
+                android:icon="@drawable/ic_streetview_black_24dp"/>
         </menu>
     </item>
 

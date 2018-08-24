@@ -9,7 +9,7 @@ import retrofit2.Call;
 public class CategoryHelper {
 
     public static Call<Volume> defineCategoria(String categoria) {
-        ApiService service = ApiAdapter.getApiService();
+        ApiService service = ApiAdapter.getApiService(Constants.URL_BASE);
 
         switch (categoria) {
             case Constants.ACTION:

@@ -1,10 +1,12 @@
 package com.adrian_971029.infobook.io;
 
 import com.adrian_971029.infobook.model.Volume;
+import com.adrian_971029.infobook.model_map.MyPlaces;
 import com.adrian_971029.infobook.utils.Constants;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Url;
 
 public interface ApiService {
 
@@ -40,5 +42,8 @@ public interface ApiService {
 
     @GET(Constants.VOLUMES + Constants.SUBJECT + Constants.SCIENCE_FICTION  + Constants.MAX_RESULTS)
     Call<Volume> getScienceFictionBooks();
+
+    @GET
+    Call<MyPlaces> getNearByPlaces(@Url String url);
 
 }

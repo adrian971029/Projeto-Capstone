@@ -17,5 +17,6 @@ public class Constants {
     public static final String SCIENCE = "science";
     public static final String HISTORY = "history";
     public static final String RELIGION = "religion";
+    public static final String GOOGLE_API_URL = "https://maps.googleapis.com/";
 
 }

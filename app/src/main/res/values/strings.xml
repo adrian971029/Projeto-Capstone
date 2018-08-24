@@ -38,5 +38,10 @@
     <string name="lbl_delete_favorites">Removido de favoritos</string>
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="lbl_opcoes">Opções</string>
+    <string name="lbl_tela_principal">Tela Principal</string>
+    <string name="lbl_livrarias">Livrarias</string>
+    <string name="lbl_bibliotecas">Bibliotecas</string>
 
 </resources>

@@ -11,7 +11,7 @@ public class ApiAdapter {
 
     private static ApiService API_SERVICE;
 
-    public static ApiService getApiService() {
+    public static ApiService getApiService(String urlBase) {
 
         Gson gson = new GsonBuilder()
                 .setLenient()
@@ -19,7 +19,7 @@ public class ApiAdapter {
 
         if (API_SERVICE == null) {
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(Constants.URL_BASE)
+                    .baseUrl(urlBase)
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .build();
             API_SERVICE = retrofit.create(ApiService.class);

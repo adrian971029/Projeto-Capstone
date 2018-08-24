@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_back"
+        android:enabled="true"
+        android:title="@string/lbl_tela_principal"
+        android:icon="@drawable/ic_arrow_back_black_24dp"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/action_library"
+        android:enabled="true"
+        android:title="@string/lbl_livrarias"
+        android:icon="@drawable/ic_book_black_24dp"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/action_biblioteca"
+        android:enabled="true"
+        android:title="@string/lbl_bibliotecas"
+        android:icon="@drawable/ic_location_city_black_24dp"
+        app:showAsAction="ifRoom"/>
+
+</menu>
