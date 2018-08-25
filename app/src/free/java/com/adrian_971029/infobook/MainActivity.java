@@ -403,25 +403,30 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @Override
     public void onLoadFinished(@NonNull Loader<List<VolumeInfo>> loader, List<VolumeInfo> data) {
         if(data != null){
-            if(data.size() > 0){
-                exibirProgreso(false);
-                mTextMensagemSemFavoritos.setVisibility(View.GONE);
-                volumeInfoArrayList.clear();
-                volumeInfoArrayList.addAll(data);
-                mFavoritesAdapter.notifyDataSetChanged();
-            }else {
-                mTextMensagemSemFavoritos.setVisibility(View.VISIBLE);
-                volumeInfoArrayList.clear();
-                mFavoritesAdapter.notifyDataSetChanged();
-                exibirProgreso(false);
+            if(items.size() == 0) {
+                if(data.size() > 0){
+                    exibirProgreso(false);
+                    mTextMensagemSemFavoritos.setVisibility(View.GONE);
+                    volumeInfoArrayList.clear();
+                    volumeInfoArrayList.addAll(data);
+                    mFavoritesAdapter.notifyDataSetChanged();
+                }else {
+                    mTextMensagemSemFavoritos.setVisibility(View.VISIBLE);
+                    volumeInfoArrayList.clear();
+                    mFavoritesAdapter.notifyDataSetChanged();
+                    exibirProgreso(false);
+                }
             }
         }
         else {
+            if(items.size() == 0) {
+                mTextMensagemSemFavoritos.setVisibility(View.VISIBLE);
+            }
             exibirProgreso(false);
             volumeInfoArrayList.clear();
             mFavoritesAdapter.notifyDataSetChanged();
-            mTextMensagemSemFavoritos.setVisibility(View.VISIBLE);
         }
+        stopLoader(OPERATION_SEARCH_LOADER);
     }
 
     @Override
@@ -451,6 +456,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         ComponentName thisWidget = new ComponentName(context, InfoBookWidgetProvider.class);
         int[] appWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget);
         appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.layout_item_book);
+    }
+
+    void stopLoader(int id) {
+        getLoaderManager().destroyLoader(id);
     }
 
 }
