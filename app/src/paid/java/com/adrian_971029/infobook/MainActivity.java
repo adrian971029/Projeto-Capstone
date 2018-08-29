@@ -9,6 +9,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.os.PersistableBundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -22,6 +23,7 @@ import android.support.v4.content.Loader;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -56,6 +58,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     public static final int OPERATION_SEARCH_LOADER = 25;
     public static final String BOOK_PREFERENCE = "book_preference";
     public static final String FAVORITE_PREFERENCE = "favorite_preference";
+    public static final String KEY_RECYCLER_STATE = "recycler_state";
+    public static final String STATE_ITEMS = "state_items";
+    public static final String STATE_FAVORITES = "state_items_favorites";
 
     @BindView(R.id.tool_bar)
     Toolbar mToolbar;
@@ -92,6 +97,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private ContentProviderAccess providerAccess;
     private Context context;
     protected SharedPreferences sharedPrefs;
+    private RecyclerView.LayoutManager layoutManager;
+    private Parcelable mListState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +110,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         context = getApplicationContext();
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         items = new ArrayList<Item>();
+        volumeInfoArrayList = new ArrayList<VolumeInfo>();
         setSupportActionBar(mToolbar);
         mToolbar.setTitle("InfoBook");
         mToolbar.setTitleTextColor(resources.getColor(R.color.textAndIcons));
@@ -127,14 +135,41 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         mToogle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
         atualizarWidget();
-        exibirProgreso(true);
-        controlBookPreference();
+        if(savedInstanceState != null) {
+            if (savedInstanceState.getParcelable(KEY_RECYCLER_STATE) != null) {
+                if (sharedPrefs != null) {
+                    if(sharedPrefs.getString(BOOK_PREFERENCE,Constants.ADVENTURE).equals(FAVORITE_PREFERENCE)) {
+                        mListState = savedInstanceState.getParcelable(KEY_RECYCLER_STATE);
+                        items.clear();
+                        volumeInfoArrayList = savedInstanceState.getParcelableArrayList(STATE_FAVORITES);
+                        setupRecyclerFavorites();
+                    } else {
+                        mListState = savedInstanceState.getParcelable(KEY_RECYCLER_STATE);
+                        items = savedInstanceState.getParcelableArrayList(STATE_ITEMS);
+                        volumeInfoArrayList.clear();
+                        setupRecycler();
+                    }
+                } else {
+                    mListState = savedInstanceState.getParcelable(KEY_RECYCLER_STATE);
+                    volumeInfoArrayList.clear();
+                    items = savedInstanceState.getParcelableArrayList(STATE_ITEMS);
+                    setupRecycler();
+                }
+                layoutManager.onRestoreInstanceState(mListState);
+            }
+        } else {
+            exibirProgreso(true);
+            controlBookPreference();
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        controlBookPreference();
+        if (mListState != null) {
+        } else {
+            controlBookPreference();
+        }
     }
 
     @OnClick(R.id.img_atualizar)
@@ -152,15 +187,16 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     }
 
     private void setupRecycler() {
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
         mAdapter = new MainAdapter(this,items);
         mRecyclerView.setAdapter(mAdapter);
     }
 
     private void setupRecyclerFavorites() {
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
 
         mFavoritesAdapter = new FavoritesAdapter(this,volumeInfoArrayList);
@@ -451,6 +487,13 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     void stopLoader(int id) {
         getLoaderManager().destroyLoader(id);
+    }
+
+    protected void onSaveInstanceState(Bundle state) {
+        super.onSaveInstanceState(state);
+        state.putParcelable(KEY_RECYCLER_STATE, layoutManager.onSaveInstanceState());
+        state.putParcelableArrayList(STATE_ITEMS,items);
+        state.putParcelableArrayList(STATE_FAVORITES,volumeInfoArrayList);
     }
 
 }

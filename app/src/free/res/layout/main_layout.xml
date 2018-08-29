@@ -37,6 +37,7 @@
         android:layout_height="match_parent"
         android:clipToPadding="false"
         android:scrollbarStyle="outsideOverlay"
+        android:saveEnabled="true"
         android:paddingTop="8dp"
         android:paddingLeft="4dp"
         android:paddingRight="4dp"
