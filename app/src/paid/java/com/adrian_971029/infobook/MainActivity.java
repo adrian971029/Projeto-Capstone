@@ -223,7 +223,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         setupRecycler();
 
         if(temConexao(this)){
-            ReadVolumeJson readVolumeJson = new ReadVolumeJson(volume,items,mAdapter,mProgressBar,mTextMensagem);
+            ReadVolumeJson readVolumeJson = new ReadVolumeJson(volume,items,mAdapter,mProgressBar,mTextMensagem,this);
             readVolumeJson.chamaJSon(category);
         }
         else{

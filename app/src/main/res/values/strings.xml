@@ -43,5 +43,27 @@
     <string name="lbl_tela_principal">Tela Principal</string>
     <string name="lbl_livrarias">Livrarias</string>
     <string name="lbl_bibliotecas">Bibliotecas</string>
+    <string name="lbl_permissao_denegada">Permissão denegada</string>
+    <string name="lbl_book_store">book_store</string>
+    <string name="lbl_library">library</string>
+    <string name="url_nearplaces">https://maps.googleapis.com/maps/api/place/nearbysearch/json?</string>
+    <string name="location_url">location=</string>
+    <string name="radius_url"><![CDATA[&radius=]]></string>
+    <string name="type_url"><![CDATA[&type=]]></string>
+    <string name="sensor_url"><![CDATA[&sensor=true]]></string>
+    <string name="key_url"><![CDATA[&key=]]></string>
+    <string name="lbl_getUlr">getUrl</string>
+    <string name="lbl_minha_posicao">Minha posição</string>
+    <string name="lbl_by">by</string>
+    <string name="action_received">action received:</string>
+    <string name="updating_app_widget">updating app widget</string>
+    <string name="error">Error:</string>
+    <string name="title_info_book">InfoBook</string>
+    <string name="txt_html">text/html</string>
+    <string name="lbl_ingles">Ingles</string>
+    <string name="lbl_portugues">Portugues</string>
+    <string name="lbl_espanhol">Español</string>
+    <string name="lbl_alemao">Alemán</string>
+    <string name="lbl_frances">Francês</string>
 
 </resources>

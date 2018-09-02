@@ -116,7 +116,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         items = new ArrayList<Item>();
         volumeInfoArrayList = new ArrayList<VolumeInfo>();
         setSupportActionBar(mToolbar);
-        mToolbar.setTitle("InfoBook");
+        mToolbar.setTitle(R.string.title_info_book);
         mToolbar.setTitleTextColor(resources.getColor(R.color.textAndIcons));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Typeface fontExpanded = Typer.set(this).getFont(Font.ROBOTO_CONDENSED_BOLD);
@@ -231,7 +231,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         setupRecycler();
 
         if(temConexao(this)){
-            ReadVolumeJson readVolumeJson = new ReadVolumeJson(volume,items,mAdapter,mProgressBar,mTextMensagem);
+            ReadVolumeJson readVolumeJson = new ReadVolumeJson(volume,items,mAdapter,mProgressBar,mTextMensagem,this);
             readVolumeJson.chamaJSon(category);
         }
         else{

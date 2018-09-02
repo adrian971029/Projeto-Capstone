@@ -36,13 +36,13 @@ public class InfoBookWidgetProvider extends AppWidgetProvider {
     @Override
     public void onReceive(Context context, Intent widgetIntent) {
         final String action = widgetIntent.getAction();
-        Log.d(TAG, "action received: " + action);
+        Log.d(TAG, context.getString(R.string.action_received) + action);
         super.onReceive(context, widgetIntent);
     }
 
     @Override
     public void onUpdate(final Context context, final AppWidgetManager appWidgetManager, final int[] appWidgetIds) {
-        Log.d(TAG, "updating app widget");
+        Log.d(TAG, context.getString(R.string.updating_app_widget));
         // To prevent any ANR timeouts, we perform the update in a Retrofit style or create another service
 
         Call<Volume> volumeResponseCall = CategoryHelper.defineCategoria(Constants.ADVENTURE);
@@ -54,7 +54,7 @@ public class InfoBookWidgetProvider extends AppWidgetProvider {
             @Override
             public void onResponse(Call<Volume> call, Response<Volume> response) {
                 if (!response.isSuccessful()) {
-                    Log.i(TAG, "Error:" + response.code());
+                    Log.i(TAG, context.getString(R.string.error) + response.code());
                 } else {
                     Volume volumeResponse = response.body();
                     if (volumeResponse != null) {
@@ -111,7 +111,7 @@ public class InfoBookWidgetProvider extends AppWidgetProvider {
 
             @Override
             public void onFailure(Call<Volume> call, Throwable t) {
-                Log.e(TAG, "Error:" + t.getMessage());
+                Log.e(TAG, context.getString(R.string.error) + t.getMessage());
             }
 
         });

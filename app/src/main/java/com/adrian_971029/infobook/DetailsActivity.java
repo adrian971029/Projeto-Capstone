@@ -130,12 +130,12 @@ public class DetailsActivity extends BaseActivity {
 
     @OnClick(R.id.action_up)
     void onClickActionUp() {
-        onSupportNavigateUp();
+        finish();
     }
     @OnClick(R.id.fab_share_details)
     void onClickShareFab() {
         startActivity(Intent.createChooser(ShareCompat.IntentBuilder.from(this)
-                .setType("text/html")
+                .setType(getString(R.string.txt_html))
                 .setText(volumeInfo.getInfoLink())
                 .getIntent(),getString(R.string.action_share)));
     }
@@ -191,11 +191,11 @@ public class DetailsActivity extends BaseActivity {
             if (mAuthors.size() == 0) {
                 return result;
             } else if (mAuthors.size() == 1) {
-                result = "by ";
+                result = getApplicationContext().getResources().getString(R.string.lbl_by) + " ";
                 result += mAuthors.get(0);
                 return result;
             } else {
-                result = "by ";
+                result = getApplicationContext().getResources().getString(R.string.lbl_by) + " ";
                 for (int i = 0; i < mAuthors.size(); i++) {
                     if (i == mAuthors.size()-1) {
                         result += mAuthors.get(i);
@@ -237,19 +237,19 @@ public class DetailsActivity extends BaseActivity {
         String result = language;
         switch (language) {
             case "en":
-                result = "Ingles";
+                result = getString(R.string.lbl_ingles);
                 return result;
             case "pt":
-                result = "Portugues";
+                result = getString(R.string.lbl_portugues);
                 return result;
             case "es":
-                result = "Español";
+                result = getString(R.string.lbl_espanhol);
                 return result;
             case "de":
-                result = "Alemán";
+                result = getString(R.string.lbl_alemao);
                 return result;
             case "fr":
-                result = "Francês";
+                result = getString(R.string.lbl_frances);
                 return result;
             default:
                 return result;

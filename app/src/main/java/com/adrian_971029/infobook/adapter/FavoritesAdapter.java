@@ -111,11 +111,11 @@ public class FavoritesAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolde
             if (mAuthors.size() == 0) {
                 return result;
             } else if (mAuthors.size() == 1) {
-                result = "by ";
+                result = context.getString(R.string.lbl_by) + " ";
                 result += mAuthors.get(0);
                 return result;
             } else {
-                result = "by ";
+                result = context.getString(R.string.lbl_by) + " ";
                 for (int i = 0; i < mAuthors.size(); i++) {
                     if (i == mAuthors.size()-1) {
                         result += mAuthors.get(i);

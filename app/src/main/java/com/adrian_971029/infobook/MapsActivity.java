@@ -78,10 +78,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.action_library:
-                        nearByPlace("book_store");
+                        nearByPlace(getString(R.string.lbl_book_store));
                         break;
                     case R.id.action_biblioteca:
-                        nearByPlace("library");
+                        nearByPlace(getString(R.string.lbl_library));
                         break;
                     case R.id.action_back:
                         finish();
@@ -136,13 +136,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     private String getUrl(double latitude, double longitude, String placeType) {
-        StringBuilder googlePlaceUrl = new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
-        googlePlaceUrl.append("location="+latitude+","+longitude);
-        googlePlaceUrl.append("&radius="+10000);
-        googlePlaceUrl.append("&type="+placeType);
-        googlePlaceUrl.append("&sensor=true");
-        googlePlaceUrl.append("&key="+getResources().getString(R.string.google_maps_key));
-        Log.d("getUrl",googlePlaceUrl.toString());
+        StringBuilder googlePlaceUrl = new StringBuilder(getString(R.string.url_nearplaces));
+        googlePlaceUrl.append(getString(R.string.location_url)+latitude+","+longitude);
+        googlePlaceUrl.append(getString(R.string.radius_url)+10000);
+        googlePlaceUrl.append(getString(R.string.type_url)+placeType);
+        googlePlaceUrl.append(getString(R.string.sensor_url));
+        googlePlaceUrl.append(getString(R.string.key_url)+getResources().getString(R.string.google_maps_key));
+        Log.d(getString(R.string.lbl_getUlr),googlePlaceUrl.toString());
         return googlePlaceUrl.toString();
     }
 
@@ -175,7 +175,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         }
                     }
                 } else {
-                    Toast.makeText(this,"Permissão denegada",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, R.string.lbl_permissao_denegada,Toast.LENGTH_SHORT).show();
                 }
                 break;
         }
@@ -240,7 +240,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng latLng = new LatLng(latitude,longitude);
         MarkerOptions markerOptions = new MarkerOptions()
                 .position(latLng)
-                .title("Minha posição")
+                .title(getString(R.string.lbl_minha_posicao))
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
         mMarker = mMap.addMarker(markerOptions);
 

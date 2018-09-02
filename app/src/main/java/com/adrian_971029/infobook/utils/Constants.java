@@ -5,7 +5,7 @@ public class Constants {
     public static final String URL_BASE = "https://www.googleapis.com/books/v1/";
     public static final String VOLUMES = "volumes?q=";
     public static final String SUBJECT = "subject:";
-    public static final String MAX_RESULTS = "&maxResults=40";
+    public static final String MAX_RESULTS = "&maxResults=20";
     public static final String ADVENTURE = "adventure";
     public static final String FANTASY = "fantasy";
     public static final String SCIENCE_FICTION = "science_fiction";
