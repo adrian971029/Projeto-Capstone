@@ -3,10 +3,10 @@ apply plugin: 'com.android.application'
 android {
     signingConfigs {
         config {
-            keyAlias 'adrian'
-            keyPassword 'start'
-            storeFile file('D:/Android/InfoBook/key_store')
-            storePassword 'start'
+            keyAlias 'key'
+            keyPassword 'start1234'
+            storeFile file('$rootDir/keystore/key.jks')
+            storePassword 'start1234'
         }
     }
     compileSdkVersion 27
@@ -19,7 +19,11 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
+        debug {
+            signingConfig signingConfigs.debug
+        }
         release {
+            signingConfig signingConfigs.debug
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
