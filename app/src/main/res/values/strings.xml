@@ -46,13 +46,6 @@
     <string name="lbl_permissao_denegada">Permissão denegada</string>
     <string name="lbl_book_store">book_store</string>
     <string name="lbl_library">library</string>
-    <string name="url_nearplaces">https://maps.googleapis.com/maps/api/place/nearbysearch/json?</string>
-    <string name="location_url">location=</string>
-    <string name="radius_url"><![CDATA[&radius=]]></string>
-    <string name="type_url"><![CDATA[&type=]]></string>
-    <string name="sensor_url"><![CDATA[&sensor=true]]></string>
-    <string name="key_url"><![CDATA[&key=]]></string>
-    <string name="lbl_getUlr">getUrl</string>
     <string name="lbl_minha_posicao">Minha posição</string>
     <string name="lbl_by">by</string>
     <string name="action_received">action received:</string>
